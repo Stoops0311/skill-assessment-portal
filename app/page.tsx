@@ -1,103 +1,132 @@
-import Image from "next/image";
+"use client"
 
-export default function Home() {
+import { useRouter } from 'next/navigation'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { CheckCircle, FileText, Users, Award } from 'lucide-react'
+import { useApplicationStore } from '@/lib/store'
+
+export default function HomePage() {
+  const router = useRouter()
+  const { data } = useApplicationStore()
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      <header className="bg-[#2d5f3f] text-white py-8 px-6">
+        <div className="max-w-7xl mx-auto">
+          <h1 className="text-4xl font-bold">Australian Skills Assessment Portal</h1>
+          <p className="text-lg mt-2 opacity-90">Professional Skills Recognition Service</p>
         </div>
+      </header>
+
+      <main className="max-w-7xl mx-auto px-6 py-12">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-semibold text-gray-800 mb-4">
+            Welcome to the Skills Assessment Application
+          </h2>
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            Begin your journey towards professional recognition in Australia. Our streamlined 
+            assessment process helps validate your skills and qualifications for migration and 
+            employment purposes.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          <Card className="p-6 text-center hover:shadow-lg transition-shadow">
+            <FileText className="h-12 w-12 mx-auto mb-3 text-[#2d5f3f]" />
+            <h3 className="font-semibold mb-2">Easy Application</h3>
+            <p className="text-sm text-gray-600">Simple 8-step process</p>
+          </Card>
+          
+          <Card className="p-6 text-center hover:shadow-lg transition-shadow">
+            <Users className="h-12 w-12 mx-auto mb-3 text-[#2d5f3f]" />
+            <h3 className="font-semibold mb-2">Expert Assessment</h3>
+            <p className="text-sm text-gray-600">Industry professionals</p>
+          </Card>
+          
+          <Card className="p-6 text-center hover:shadow-lg transition-shadow">
+            <CheckCircle className="h-12 w-12 mx-auto mb-3 text-[#2d5f3f]" />
+            <h3 className="font-semibold mb-2">Fast Processing</h3>
+            <p className="text-sm text-gray-600">Quick turnaround time</p>
+          </Card>
+          
+          <Card className="p-6 text-center hover:shadow-lg transition-shadow">
+            <Award className="h-12 w-12 mx-auto mb-3 text-[#2d5f3f]" />
+            <h3 className="font-semibold mb-2">Recognized</h3>
+            <p className="text-sm text-gray-600">Government approved</p>
+          </Card>
+        </div>
+
+        <Card className="p-8">
+          <h3 className="text-xl font-semibold mb-4">Application Process</h3>
+          <ol className="space-y-3 mb-6">
+            <li className="flex items-start">
+              <span className="font-semibold text-[#2d5f3f] mr-3">1.</span>
+              <span>Personal Details - Provide your basic information</span>
+            </li>
+            <li className="flex items-start">
+              <span className="font-semibold text-[#2d5f3f] mr-3">2.</span>
+              <span>Residential Address - Enter your contact information</span>
+            </li>
+            <li className="flex items-start">
+              <span className="font-semibold text-[#2d5f3f] mr-3">3.</span>
+              <span>Identification Details - Submit passport information</span>
+            </li>
+            <li className="flex items-start">
+              <span className="font-semibold text-[#2d5f3f] mr-3">4.</span>
+              <span>Avetmiss Details - Complete demographic information</span>
+            </li>
+            <li className="flex items-start">
+              <span className="font-semibold text-[#2d5f3f] mr-3">5.</span>
+              <span>Education & Employment - Provide background details</span>
+            </li>
+            <li className="flex items-start">
+              <span className="font-semibold text-[#2d5f3f] mr-3">6.</span>
+              <span>Occupation Details - Select your assessment pathway</span>
+            </li>
+            <li className="flex items-start">
+              <span className="font-semibold text-[#2d5f3f] mr-3">7.</span>
+              <span>Applicant Declaration - Download and sign forms</span>
+            </li>
+            <li className="flex items-start">
+              <span className="font-semibold text-[#2d5f3f] mr-3">8.</span>
+              <span>Document Upload - Submit supporting documents</span>
+            </li>
+          </ol>
+
+          <div className="bg-gray-50 p-4 rounded-lg mb-6">
+            <p className="text-sm text-gray-600">
+              <strong>Your Portal Reference:</strong> {data.portalReference}
+            </p>
+            <p className="text-xs text-gray-500 mt-1">
+              Keep this reference number for your records
+            </p>
+          </div>
+
+          <div className="flex gap-4 justify-center">
+            <Button
+              onClick={() => router.push('/personal-details')}
+              className="bg-[#2d5f3f] hover:bg-[#3a7a4f] px-8 py-6 text-lg"
+            >
+              Start New Application
+            </Button>
+            <Button
+              onClick={() => router.push('/personal-details')}
+              variant="outline"
+              className="border-[#f4d03f] text-black hover:bg-[#f4d03f] px-8 py-6 text-lg"
+            >
+              Continue Application
+            </Button>
+          </div>
+        </Card>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+      <footer className="bg-gray-100 py-6 mt-12">
+        <div className="max-w-7xl mx-auto px-6 text-center text-sm text-gray-600">
+          <p>© 2024 Australian Skills Assessment Portal. All rights reserved.</p>
+          <p className="mt-2">Authorised by the Department of Home Affairs</p>
+        </div>
       </footer>
     </div>
-  );
+  )
 }
