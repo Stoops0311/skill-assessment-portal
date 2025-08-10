@@ -6,7 +6,6 @@ import { Navigation } from '@/components/layout/Navigation'
 import { Header } from '@/components/layout/Header'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Checkbox } from '@/components/ui/checkbox'
 import { useApplicationStore } from '@/lib/store'
@@ -28,21 +27,12 @@ export default function PersonalDetailsPage() {
             <Label htmlFor="title">
               Preferred Title <span className="text-red-500">*</span>
             </Label>
-            <Select
-              value={formData.preferredTitle}
-              onValueChange={(value) => setFormData({ ...formData, preferredTitle: value })}
-            >
-              <SelectTrigger id="title">
-                <SelectValue placeholder="Select title" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="mr">Mr</SelectItem>
-                <SelectItem value="mrs">Mrs</SelectItem>
-                <SelectItem value="ms">Ms</SelectItem>
-                <SelectItem value="dr">Dr</SelectItem>
-                <SelectItem value="prof">Prof</SelectItem>
-              </SelectContent>
-            </Select>
+            <Input
+              id="title"
+              value={formData.preferredTitle || ''}
+              onChange={(e) => setFormData({ ...formData, preferredTitle: e.target.value })}
+              placeholder="Enter preferred title (e.g., Mr, Mrs, Ms, Dr, Prof)"
+            />
           </div>
 
           <div>
@@ -138,9 +128,9 @@ export default function PersonalDetailsPage() {
             </Label>
             <Input
               id="dob"
-              type="date"
-              value={formData.dateOfBirth ? new Date(formData.dateOfBirth).toISOString().split('T')[0] : ''}
-              onChange={(e) => setFormData({ ...formData, dateOfBirth: new Date(e.target.value) })}
+              value={formData.dateOfBirth || ''}
+              onChange={(e) => setFormData({ ...formData, dateOfBirth: e.target.value })}
+              placeholder="Enter date of birth (DD/MM/YYYY)"
             />
           </div>
         </form>

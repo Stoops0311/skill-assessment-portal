@@ -6,7 +6,6 @@ import { Navigation } from '@/components/layout/Navigation'
 import { Header } from '@/components/layout/Header'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useApplicationStore } from '@/lib/store'
 
@@ -79,20 +78,12 @@ export default function AvetmissDetailsPage() {
               <Label htmlFor="englishProficiency">
                 Proficiency in Spoken English <span className="text-red-500">*</span>
               </Label>
-              <Select
+              <Input
+                id="englishProficiency"
                 value={formData.englishProficiency || ''}
-                onValueChange={(value) => setFormData({ ...formData, englishProficiency: value })}
-              >
-                <SelectTrigger id="englishProficiency">
-                  <SelectValue placeholder="Select proficiency level" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="very-well">Very Well</SelectItem>
-                  <SelectItem value="well">Well</SelectItem>
-                  <SelectItem value="not-well">Not Well</SelectItem>
-                  <SelectItem value="not-at-all">Not at All</SelectItem>
-                </SelectContent>
-              </Select>
+                onChange={(e) => setFormData({ ...formData, englishProficiency: e.target.value })}
+                placeholder="Enter English proficiency (e.g., Very Well, Well, Not Well)"
+              />
             </div>
 
             <div>

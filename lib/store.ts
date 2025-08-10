@@ -11,7 +11,7 @@ export interface ApplicationData {
     middleName?: string
     otherName?: boolean
     gender?: string
-    dateOfBirth?: Date
+    dateOfBirth?: string
   }
   residentialAddress: {
     country?: string
@@ -33,7 +33,7 @@ export interface ApplicationData {
     passportCountry?: string
     placeOfIssue?: string
     passportNumber?: string
-    passportExpiryDate?: Date
+    passportExpiryDate?: string
   }
   avetmissDetails: {
     isOffshore?: boolean

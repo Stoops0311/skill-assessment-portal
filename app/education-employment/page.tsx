@@ -5,7 +5,7 @@ import { FormContainer } from '@/components/layout/FormContainer'
 import { Navigation } from '@/components/layout/Navigation'
 import { Header } from '@/components/layout/Header'
 import { Label } from '@/components/ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Input } from '@/components/ui/input'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useApplicationStore } from '@/lib/store'
 
@@ -31,22 +31,12 @@ export default function EducationEmploymentPage() {
               <Label htmlFor="highestSchoolLevel">
                 What is your highest COMPLETED school level? <span className="text-red-500">*</span>
               </Label>
-              <Select
+              <Input
+                id="highestSchoolLevel"
                 value={formData.highestSchoolLevel || ''}
-                onValueChange={(value) => setFormData({ ...formData, highestSchoolLevel: value })}
-              >
-                <SelectTrigger id="highestSchoolLevel">
-                  <SelectValue placeholder="Select highest school level" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="year-12">Year 12 or equivalent</SelectItem>
-                  <SelectItem value="year-11">Year 11 or equivalent</SelectItem>
-                  <SelectItem value="year-10">Year 10 or equivalent</SelectItem>
-                  <SelectItem value="year-9">Year 9 or equivalent</SelectItem>
-                  <SelectItem value="year-8-below">Year 8 or below</SelectItem>
-                  <SelectItem value="never-attended">Never attended school</SelectItem>
-                </SelectContent>
-              </Select>
+                onChange={(e) => setFormData({ ...formData, highestSchoolLevel: e.target.value })}
+                placeholder="Enter highest school level (e.g., Year 12 or equivalent)"
+              />
             </div>
 
             <div>
@@ -95,49 +85,24 @@ export default function EducationEmploymentPage() {
               <Label htmlFor="employmentStatus">
                 What is your current employment status? <span className="text-red-500">*</span>
               </Label>
-              <Select
+              <Input
+                id="employmentStatus"
                 value={formData.currentEmploymentStatus || ''}
-                onValueChange={(value) => setFormData({ ...formData, currentEmploymentStatus: value })}
-              >
-                <SelectTrigger id="employmentStatus">
-                  <SelectValue placeholder="Select employment status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="full-time">Full-time employee</SelectItem>
-                  <SelectItem value="part-time">Part-time employee</SelectItem>
-                  <SelectItem value="casual">Casual employee</SelectItem>
-                  <SelectItem value="self-employed">Self-employed</SelectItem>
-                  <SelectItem value="employer">Employer</SelectItem>
-                  <SelectItem value="unemployed-seeking">Unemployed - seeking employment</SelectItem>
-                  <SelectItem value="unemployed-not-seeking">Unemployed - not seeking employment</SelectItem>
-                  <SelectItem value="retired">Retired</SelectItem>
-                  <SelectItem value="student">Student</SelectItem>
-                </SelectContent>
-              </Select>
+                onChange={(e) => setFormData({ ...formData, currentEmploymentStatus: e.target.value })}
+                placeholder="Enter employment status (e.g., Full-time employee, Student)"
+              />
             </div>
 
             <div>
               <Label htmlFor="mainReason">
                 What BEST describes your main reason for undertaking this skills assessment? <span className="text-red-500">*</span>
               </Label>
-              <Select
+              <Input
+                id="mainReason"
                 value={formData.mainReason || ''}
-                onValueChange={(value) => setFormData({ ...formData, mainReason: value })}
-              >
-                <SelectTrigger id="mainReason">
-                  <SelectValue placeholder="Select main reason" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="migration">Migration purposes</SelectItem>
-                  <SelectItem value="employment">To get a job</SelectItem>
-                  <SelectItem value="career-change">Career change</SelectItem>
-                  <SelectItem value="skill-recognition">Skill recognition</SelectItem>
-                  <SelectItem value="professional-development">Professional development</SelectItem>
-                  <SelectItem value="education">Further education</SelectItem>
-                  <SelectItem value="requirement">Employer/industry requirement</SelectItem>
-                  <SelectItem value="other">Other</SelectItem>
-                </SelectContent>
-              </Select>
+                onChange={(e) => setFormData({ ...formData, mainReason: e.target.value })}
+                placeholder="Enter main reason (e.g., Migration purposes, Career change)"
+              />
             </div>
           </div>
         </form>
