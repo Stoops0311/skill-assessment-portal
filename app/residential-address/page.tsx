@@ -6,7 +6,6 @@ import { Navigation } from '@/components/layout/Navigation'
 import { Header } from '@/components/layout/Header'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useApplicationStore } from '@/lib/store'
 
 export default function ResidentialAddressPage() {
@@ -28,24 +27,12 @@ export default function ResidentialAddressPage() {
             <Label htmlFor="country">
               Country <span className="text-red-500">*</span>
             </Label>
-            <Select
-              value={formData.country || 'australia'}
-              onValueChange={(value) => setFormData({ ...formData, country: value })}
-            >
-              <SelectTrigger id="country">
-                <SelectValue placeholder="Select country" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="australia">Australia</SelectItem>
-                <SelectItem value="new-zealand">New Zealand</SelectItem>
-                <SelectItem value="india">India</SelectItem>
-                <SelectItem value="china">China</SelectItem>
-                <SelectItem value="philippines">Philippines</SelectItem>
-                <SelectItem value="uk">United Kingdom</SelectItem>
-                <SelectItem value="usa">United States</SelectItem>
-                <SelectItem value="other">Other</SelectItem>
-              </SelectContent>
-            </Select>
+            <Input
+              id="country"
+              value={formData.country || ''}
+              onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+              placeholder="Enter country (e.g., Australia, New Zealand, India)"
+            />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
@@ -146,67 +133,6 @@ export default function ResidentialAddressPage() {
             </div>
           </div>
 
-          <div className="space-y-4">
-            <div>
-              <Label>
-                Mobile <span className="text-red-500">*</span>
-              </Label>
-              <div className="flex gap-2">
-                <Select
-                  value={formData.mobileCountryCode || '+61'}
-                  onValueChange={(value) => setFormData({ ...formData, mobileCountryCode: value })}
-                >
-                  <SelectTrigger className="w-32">
-                    <SelectValue placeholder="Code" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="+61">+61 (AU)</SelectItem>
-                    <SelectItem value="+64">+64 (NZ)</SelectItem>
-                    <SelectItem value="+91">+91 (IN)</SelectItem>
-                    <SelectItem value="+86">+86 (CN)</SelectItem>
-                    <SelectItem value="+63">+63 (PH)</SelectItem>
-                    <SelectItem value="+44">+44 (UK)</SelectItem>
-                    <SelectItem value="+1">+1 (US)</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Input
-                  value={formData.mobileNumber || ''}
-                  onChange={(e) => setFormData({ ...formData, mobileNumber: e.target.value })}
-                  placeholder="Mobile number"
-                  className="flex-1"
-                />
-              </div>
-            </div>
-
-            <div>
-              <Label>Alternate Mobile</Label>
-              <div className="flex gap-2">
-                <Select
-                  value={formData.alternateMobileCountryCode || '+61'}
-                  onValueChange={(value) => setFormData({ ...formData, alternateMobileCountryCode: value })}
-                >
-                  <SelectTrigger className="w-32">
-                    <SelectValue placeholder="Code" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="+61">+61 (AU)</SelectItem>
-                    <SelectItem value="+64">+64 (NZ)</SelectItem>
-                    <SelectItem value="+91">+91 (IN)</SelectItem>
-                    <SelectItem value="+86">+86 (CN)</SelectItem>
-                    <SelectItem value="+63">+63 (PH)</SelectItem>
-                    <SelectItem value="+44">+44 (UK)</SelectItem>
-                    <SelectItem value="+1">+1 (US)</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Input
-                  value={formData.alternateMobileNumber || ''}
-                  onChange={(e) => setFormData({ ...formData, alternateMobileNumber: e.target.value })}
-                  placeholder="Alternate mobile number"
-                  className="flex-1"
-                />
-              </div>
-            </div>
-          </div>
         </form>
 
         <Navigation

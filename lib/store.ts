@@ -23,10 +23,6 @@ export interface ApplicationData {
     postcode?: string
     email?: string
     alternateEmail?: string
-    mobileCountryCode?: string
-    mobileNumber?: string
-    alternateMobileCountryCode?: string
-    alternateMobileNumber?: string
   }
   identificationDetails: {
     countryOfBirth?: string
