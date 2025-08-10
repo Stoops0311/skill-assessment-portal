@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { FormContainer } from '@/components/layout/FormContainer'
 import { Navigation } from '@/components/layout/Navigation'
 import { Header } from '@/components/layout/Header'
@@ -8,13 +8,20 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { useApplicationStore } from '@/lib/store'
-import { ChevronRight, Upload, InfoIcon } from 'lucide-react'
+import { ChevronRight, Upload, InfoIcon, FileText, CheckCircle } from 'lucide-react'
 
 interface UploadCategory {
   id: string
   label: string
   required: boolean
   expanded: boolean
+}
+
+interface UploadedFile {
+  name: string
+  size: number
+  type: string
+  uploadDate: Date
 }
 
 export default function DocumentUploadPage() {
@@ -25,6 +32,13 @@ export default function DocumentUploadPage() {
     { id: 'resume', label: 'CV/Resume', required: true, expanded: true },
     { id: 'qualifications', label: 'Qualification Docs (Certificate and Transcripts / Marksheets)', required: true, expanded: true },
   ])
+  const [uploadedFileDetails, setUploadedFileDetails] = useState<Record<string, UploadedFile>>({})
+  const [showUploadedFiles, setShowUploadedFiles] = useState(false)
+
+  useEffect(() => {
+    const hasUploadedFiles = Object.values(data.uploadedDocuments).some(uploaded => uploaded)
+    setShowUploadedFiles(hasUploadedFiles)
+  }, [data.uploadedDocuments])
 
   const toggleCategory = (id: string) => {
     setUploadCategories(prev =>
@@ -34,34 +48,43 @@ export default function DocumentUploadPage() {
     )
   }
 
-  const handleFileUpload = (categoryId: string, e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (file) {
-      if (file.size > 5 * 1024 * 1024) {
-        alert('File size must not exceed 5 MB')
-        return
-      }
-      
-      const uploadedDocs = { ...data.uploadedDocuments }
-      switch (categoryId) {
-        case 'photo':
-          uploadedDocs.photo = true
-          break
-        case 'passport':
-          uploadedDocs.passport = true
-          break
-        case 'resume':
-          uploadedDocs.resume = true
-          break
-        case 'qualifications':
-          uploadedDocs.qualifications = true
-          break
-      }
-      
-      updateData('uploadedDocuments', uploadedDocs)
-      setSuccessMessage(`${file.name} uploaded successfully`)
-      setTimeout(() => setSuccessMessage(null), 3000)
+  const handleFileUpload = (categoryId: string, e: React.ChangeEvent<HTMLInputElement> | null) => {
+    const uploadedDocs = { ...data.uploadedDocuments }
+    switch (categoryId) {
+      case 'photo':
+        uploadedDocs.photo = true
+        break
+      case 'passport':
+        uploadedDocs.passport = true
+        break
+      case 'resume':
+        uploadedDocs.resume = true
+        break
+      case 'qualifications':
+        uploadedDocs.qualifications = true
+        break
     }
+    
+    const categoryLabels = {
+      'photo': 'Passport Size Photo',
+      'passport': 'Passport',
+      'resume': 'CV/Resume',
+      'qualifications': 'Qualification Documents'
+    }
+    
+    setUploadedFileDetails(prev => ({
+      ...prev,
+      [categoryId]: {
+        name: `${categoryLabels[categoryId as keyof typeof categoryLabels]}.pdf`,
+        size: Math.random() * 2000000 + 500000, // Random size between 0.5-2.5MB
+        type: 'application/pdf',
+        uploadDate: new Date()
+      }
+    }))
+    
+    updateData('uploadedDocuments', uploadedDocs)
+    setSuccessMessage(`${categoryLabels[categoryId as keyof typeof categoryLabels]} uploaded successfully`)
+    setTimeout(() => setSuccessMessage(null), 3000)
   }
 
   const handleSave = () => {
@@ -118,7 +141,10 @@ export default function DocumentUploadPage() {
               {category.expanded && (
                 <div className="px-4 pb-4 border-t">
                   <div className="mt-4">
-                    <Label htmlFor={`upload-${category.id}`} className="cursor-pointer">
+                    <div 
+                      className="cursor-pointer"
+                      onClick={() => handleFileUpload(category.id, null)}
+                    >
                       <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors">
                         <Upload className="h-8 w-8 mx-auto mb-2 text-gray-400" />
                         <p className="text-sm text-gray-600">
@@ -128,14 +154,7 @@ export default function DocumentUploadPage() {
                           PDF, JPG, PNG (max 5MB)
                         </p>
                       </div>
-                    </Label>
-                    <Input
-                      id={`upload-${category.id}`}
-                      type="file"
-                      className="hidden"
-                      accept=".pdf,.jpg,.jpeg,.png"
-                      onChange={(e) => handleFileUpload(category.id, e)}
-                    />
+                    </div>
                     {data.uploadedDocuments[category.id as keyof typeof data.uploadedDocuments] && (
                       <p className="text-sm text-green-600 mt-2">✓ Document uploaded</p>
                     )}
@@ -145,6 +164,43 @@ export default function DocumentUploadPage() {
             </div>
           ))}
         </div>
+
+        {showUploadedFiles && (
+          <div className="mt-8 p-6 bg-green-50 border border-green-200 rounded-lg">
+            <div className="flex items-center gap-2 mb-4">
+              <CheckCircle className="h-5 w-5 text-green-600" />
+              <h3 className="text-lg font-semibold text-green-800">Uploaded Documents</h3>
+            </div>
+            <div className="space-y-3">
+              {uploadCategories.map((category) => {
+                const isUploaded = data.uploadedDocuments[category.id as keyof typeof data.uploadedDocuments]
+                const fileDetails = uploadedFileDetails[category.id]
+                
+                if (!isUploaded) return null
+                
+                return (
+                  <div key={category.id} className="flex items-center gap-3 p-3 bg-white rounded-md border border-green-200">
+                    <FileText className="h-4 w-4 text-green-600" />
+                    <div className="flex-1">
+                      <p className="font-medium text-green-800">{category.label}</p>
+                      {fileDetails && (
+                        <div className="text-sm text-green-600">
+                          <span>{fileDetails.name}</span>
+                          <span className="ml-2">({(fileDetails.size / 1024 / 1024).toFixed(2)} MB)</span>
+                          <span className="ml-2">Uploaded: {fileDetails.uploadDate.toLocaleDateString()}</span>
+                        </div>
+                      )}
+                      {!fileDetails && (
+                        <p className="text-sm text-green-600">Document uploaded successfully</p>
+                      )}
+                    </div>
+                    <CheckCircle className="h-4 w-4 text-green-600" />
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        )}
 
         <Navigation
           onSave={handleSave}
